@@ -62,22 +62,16 @@ case "$OUTPUT_BASE" in
     exit 2 ;;
 esac
 
-# Official source hygiene: do not start a costly run from the archived
-# main branch, a detached ref, or modified original research programs.
-if [[ "$(git -C "$ROOT" branch --show-current)" != "thesis-full-reproduction" ]]; then
-  echo "[ERROR] switch to the clean thesis-full-reproduction branch before the official run" >&2
+# Official source hygiene: do not start a costly run from a branch other than
+# main, a detached ref, or modified original research programs. Folders 01-03
+# are checked by content against the frozen baseline recorded in
+# reproduction/environment/archived_sources_manifest.json.
+if [[ "$(git -C "$ROOT" branch --show-current)" != "main" ]]; then
+  echo "[ERROR] switch to the main branch before the official run" >&2
   exit 3
 fi
-BASELINE="7a5cc9cd8f884865e1e27a234c18dd132f949598"
-ARCHIVED=(
-  01_資料建構_data_construction
-  02_模型訓練和驗證_model_training_validation
-  03_實驗與結果_experiments_results
-)
-if ! git -C "$ROOT" diff --quiet "$BASELINE" HEAD -- "${ARCHIVED[@]}" ||
-   ! git -C "$ROOT" diff --quiet -- "${ARCHIVED[@]}" ||
-   ! git -C "$ROOT" diff --cached --quiet -- "${ARCHIVED[@]}"; then
-  echo "[ERROR] original thesis research source differs from the frozen main baseline" >&2
+if ! "${PYTHON:-python3}" "$REPRO_SCRIPTS/verify_archived_sources.py"; then
+  echo "[ERROR] original thesis research source differs from the frozen baseline" >&2
   echo "[ERROR] inspect your archived-source changes; do NOT begin training" >&2
   exit 3
 fi

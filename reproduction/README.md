@@ -22,30 +22,29 @@
 
 目前 repository 的正式 reproduction branch 是：
 
-`thesis-full-reproduction`
+`main`
 
-正式 full-run launcher 會檢查目前 branch；若不是此 branch，會拒絕開始昂貴訓練。
-在 repository 尚未公開前，clone 需要具有 GitHub repository 讀取權限。
+正式 full-run launcher 開始訓練前會檢查兩件事：目前 branch 是 `main`，以及學姊原始
+研究資料夾 01～03 的每個檔案都與 `reproduction/environment/archived_sources_manifest.json`
+記錄的大小和 SHA-256 一致。任一項不符就拒絕開始昂貴訓練；可單獨執行
+`python3 reproduction/scripts/verify_archived_sources.py` 檢查第二項。
 
 ### 0.1 Clone 正式 reproduction branch
 
     cd /path/to/your/workspace
 
     git clone \
-      --branch thesis-full-reproduction \
-      --single-branch \
-      https://github.com/guoyouuu/context-aware-outfit-recommendation.git \
-      context-aware-outfit-reproduction
+      --branch main \
+      https://github.com/7114029017/context-aware-outfit-recommendation.git
 
-    cd context-aware-outfit-reproduction
+    cd context-aware-outfit-recommendation
 
     git branch --show-current
     git rev-parse HEAD
     git status --short
 
-預期 branch 為 `thesis-full-reproduction`。正式執行前，tracked working tree
-不應有自行修改的學姊原始研究程式。各分支與標籤的用途見根目錄 `README.md`
-的「分支與標籤」。
+預期 branch 為 `main`。正式執行前，tracked working tree 不應有自行修改的學姊原始
+研究程式。本 repository 的版本來源見根目錄 `README.md` 的「版本來源」。
 
 ### 0.2 取得 Git LFS feature artifacts
 
@@ -299,6 +298,10 @@ environment 後執行的 clean-room run：
 Frozen senior baseline：
 
 `7a5cc9cd8f884865e1e27a234c18dd132f949598`
+
+此 commit 屬於原始開發 repository，不在本 repository 的歷史中。01～03 在該 commit
+的內容記錄於 `reproduction/environment/archived_sources_manifest.json`，完整重現開始前
+由 `reproduction/scripts/verify_archived_sources.py` 逐檔核對。
 
 ## 2. Official run and earlier reference runs
 

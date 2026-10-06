@@ -18,6 +18,12 @@ Baseline:
 
 `7a5cc9cd8f884865e1e27a234c18dd132f949598`
 
+This commit belongs to the original development repository and is not in the
+history of this public repository. The content of folders 01-03 at that commit
+is recorded in `reproduction/environment/archived_sources_manifest.json` and
+checked file by file by `reproduction/scripts/verify_archived_sources.py`
+before a full run starts.
+
 Reproduction wrappers must not modify these directories in place.
 
 ## New artifact namespace

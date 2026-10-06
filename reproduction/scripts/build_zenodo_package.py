@@ -278,7 +278,7 @@ def snapshot_notes(commit: str, run_id: str, version: str, excluded: list[dict],
         "",
         "To run the pipeline from this snapshot, unpack the data archive first, then",
         "",
-        "    git init -q && git add -A && git commit -qm snapshot",
+        "    git init -q -b main && git add -A && git commit -qm snapshot",
         "",
         "and follow `reproduction/README.md` from section 0.3. The pipeline records the git commit of",
         "the copy it runs from, so the snapshot needs to be a git repository (`reproduction/runs/` is",
@@ -320,7 +320,7 @@ Download the archives into one directory, then:
     unzip {top}-data.zip
     unzip official-run-{run_id}.zip    # optional: the complete official run
     cd {top}
-    git init -q && git add -A && git commit -qm snapshot
+    git init -q -b main && git add -A && git commit -qm snapshot
 
 The pipeline records the git commit of the copy it runs from, hence the
 `git init` step; `reproduction/runs/` is git-ignored. After creating the
